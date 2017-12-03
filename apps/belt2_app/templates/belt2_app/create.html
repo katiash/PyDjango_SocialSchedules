@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title> Add Plan</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'belt2_app/css/style.css' %}">
+    </head>
+    <body>
+        <a href="{% url 'belt2_app:success' %}">Home</a>
+        <a href="{% url 'belt2_app:logout' %}">Logout</a>
+        
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li {% if messages.tags %} value = "{{message.tags}}" {% endif %}>
+                {{ message }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <form class="create" action="{%url 'belt2_app:create' %}" method="post">
+                {% csrf_token %}
+                Add a Trip
+                <label for="dest">Destination:</label>
+                <input type="text" id="dest" name="dest" value="">
+                <label for="desc">Description:</label>
+                <input type="text" id="desc" name="desc" value="">
+                <label for="start_date">Travel Date From:</label> 
+                <input type="date" id="start_date" name="start_date" value="">
+                <label for="end_date">Travel Date To:</label> 
+                <input type="date" id="end_date" name="end_date" value="">
+                <!-- ########Change the submit value to "Add" later on############ -->
+                <input type="submit" name="create" value="Create">
+            </form> 
+    </body>
+</html>

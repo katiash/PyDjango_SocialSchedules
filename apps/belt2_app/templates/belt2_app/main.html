@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">    
+        <title> Login / Registration</title>
+        <!-- ADDED THIS TO LOAD STATIC FOLDER ITEMS -->
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'belt2_app/css/style.css' %}">
+    </head>
+
+    <body>
+        <div id="wrapper">
+            <h1>Welcome!</h1>
+
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li {% if messages.tags %} value = "{{message.tags}}" {% endif %}>
+                    {{ message }}
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+            <form class="register" action="{%url 'belt2_app:register' %}" method="post">
+                {% csrf_token %}
+                Register
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" value="">
+                <label for="reg_user_name">Username:</label>
+                <input type="text" id="reg_user_name" name="reg_user_name" value="">
+                <label for="reg_pwd">Password:</label> 
+                <input type="password" id="reg_pwd" name="reg_pwd" value="">
+                <span>*Password should be at least 8 characters</span>
+                <label for="conf_pwd">Confirm PW:</label> 
+                <input type="password" id="conf_pwd" name="conf_pwd" value="">
+                <input type="submit" name="register" value="Register">
+            </form> 
+
+            <!-- can use the input type="email" above, part of HTML5,
+            which does ALL of the validations for you. But you will never even
+            get to the self-created validations in the model.Manager ;( -->
+
+            <!-- !!!!!!!!!!!ROUTING!!!!!!!!!!!!!!!! 
+            1) The leading "/" in the action="/your_route" tells the server to go back to 
+            localhost root (home). 
+            2) So starting from the root of project, matches the r'^' and routes to the
+            appropriate app urls file.
+            3) Where it hopefully :) finds it's match, i.e. "your_route"! -->
+
+            <form class="login" action="/login" method="post">
+                {% csrf_token %}
+                Login
+                <label for="l_user_name">Username:</label>
+                <input type="text" id="l_user_name" name="l_user_name" value="">
+                <label for="l_pwd">Password:</label>
+                <input type="password" id="l_pwd" name="l_pwd" value="">
+                <input type="submit" name="login" value="Login">
+            </form>
+        </div>
+    </body>
+</html>

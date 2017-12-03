@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">    
+        <title> Travel Dashboard </title>
+        <!-- ADDED THIS TO LOAD STATIC FOLDER ITEMS -->
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'belt2_app/css/style.css' %}">
+
+    </head>
+
+    <body>
+        {% if error_message %}
+            <p><strong> {{ error_message }}</strong></p>
+        {% endif %}
+        <!-- Grab the me.user_name-->
+        <span><h3>Hello, {{me.user_name}} </h3></span>
+        <a href="{% url 'belt2_app:logout' %}">Logout</a>
+
+        <p>Your Trip Schedules: </p>
+        <table>
+            <colgroup>
+                <col>
+                <col style="background-color: rgb(100, 128, 0)">
+            </colgroup>
+            <tr>
+                <th>Destination</th>
+                <th>Travel Start Date</th>
+                <th>Travel End Date</th>
+                <th>Plan</th>
+            </tr>
+            <!-- Remove extra closing tag later!! -->
+            {% if all_my_plans %}
+                {% for plan in all_my_plans %}
+                    <tr>
+                        <td><a href="{% url 'belt2_app:show' id=plan.id %}">{{plan.dest}}</a></td>
+                        <td>{{plan.start_date}}</td>
+                        <td>{{plan.end_date}}</td>
+                        <td>{{plan.desc}}</td>            
+                    </tr>
+                {% endfor %}
+                </table>            
+            {% else %}
+                </table>
+                <p>You do not have any trips yet. C'mon, add some trips!</p>
+            {% endif %}
+
+        <p>Other User's Travel Plans</p>
+        
+        <table>
+            <colgroup>
+                <col>
+                <col style="background-color: rgba(185, 155, 73, 0.486)">
+            </colgroup>
+            <tr>
+                <th>Name</th>
+                <th>Destination</th>
+                <th>Travel Start Date</th>
+                <th>Travel End Date</th>
+                <th>Do You Want to Join?</th>
+            </tr>
+            {% if not_my_plans %}
+                {% for plan in not_my_plans %}
+                    <tr>    
+                        <td>{{plan.created_by.name}}</td>
+                        <td><a href="{% url 'belt2_app:show' id=plan.id %}">{{plan.dest}}</td>
+                        <td>{{plan.start_date}}</td>
+                        <td>{{plan.end_date}}</td>
+                        <td><a href="{% url 'belt2_app:join' id=plan.id %}">Join</a></td>
+                    </tr>
+                {% endfor %}
+                </table>            
+            {% else %}
+                </table>
+                <p>There are currently no more Travel Plans for you to add. Invite more users to the platform to create more Travel Plans!</p>
+            {% endif %}
+            <td><a href="{% url 'belt2_app:create'%}">Add Travel Plan</a></td>
+    </body>
+</html>

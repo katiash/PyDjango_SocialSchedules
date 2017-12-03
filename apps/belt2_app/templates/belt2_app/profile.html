@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title> Destination</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'belt2_app/css/style.css' %}">
+    </head>
+    <body>
+        <a href="{% url 'belt2_app:success' %}">Home</a>
+        <a href="{% url 'belt2_app:logout' %}">Logout</a>
+        <h4>{{plan.dest}}</h4>
+        <ul>
+            <li>Planned By: {{plan.created_by.name}}</li>
+            <li>Description: {{plan.desc}}</li>
+            <li>Travel Date From: {{plan.start_date}}</li>
+            <li>Travel Date To: {{plan.end_date}}</li>
+        </ul>
+
+        <h5>Other users joining the trip:</h5>
+        <ul>
+            {%if shared_by_others%}
+                {%for user in shared_by_others%}        
+                    <li>
+                        {{user.name}}
+                    </li>
+                {%endfor%}
+            {%else%}
+                <li>No one else is planning to be on this trip yet.</li>
+            {%endif%}
+        </ul>
+    </body>
+</html>
